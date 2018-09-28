@@ -33,6 +33,11 @@ public class TodoService {
         return filteredTodos;
     }
     
+    public void updateTodo(Todo todo) {
+    	todos.remove(todo);
+    	todos.add(todo);
+    }
+    
     
     public Todo retrieveTodo(int id) {
         for (Todo todo : todos) {
