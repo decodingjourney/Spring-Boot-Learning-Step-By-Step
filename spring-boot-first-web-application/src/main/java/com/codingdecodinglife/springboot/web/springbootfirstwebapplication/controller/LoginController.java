@@ -15,7 +15,7 @@ import com.codingdecodinglife.springboot.web.springbootfirstwebapplication.servi
 @SessionAttributes("name")
 public class LoginController {
 	
-	@Autowired
+	/*@Autowired
 	LoginService service;
 	
 	@GetMapping("/login")
@@ -23,18 +23,18 @@ public class LoginController {
 		//model.put("name", name);
 	
 		return "login";
-	}
+	}*/
 	
-	@PostMapping("/login")
-	public String showWelcomePage(ModelMap model, @RequestParam String name, @RequestParam String password) {
+	@GetMapping("/")  
+	public String showWelcomePage(ModelMap model) {
 		
-		boolean isvalid = service.validateCredentials(name, password);
+		/*boolean isvalid = service.validateCredentials(name, password);
 		if(!isvalid) {
 			model.put("errorMessage", "Invalid Credentials");
 			return "login";
-		}
-		model.put("name", name);
-		model.put("password", password);
+		}*/
+		model.put("name", "user");
+		//model.put("password", password);
 	
 		return "welcome";
 	}
