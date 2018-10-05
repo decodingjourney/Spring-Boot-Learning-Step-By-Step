@@ -72,6 +72,9 @@ public class TodoController {
 	
 	@GetMapping("/delete-todo")
 	public String deleteTodo(@RequestParam int id) {
+		if(id == 2) {
+			throw new RuntimeException();
+		}
 		service.deleteTodo(id);
 		return "redirect:/list-todos";
 	}
