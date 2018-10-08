@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: Rest-Api-Spring-Boot
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: AkuJha
+Implementation-Vendor-Id: com.decodingjourney.springboot
+Build-Jdk: 1.8.0_181
+Implementation-URL: http://projects.spring.io/spring-boot/Rest-Api-Spr
+ ing-Boot/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+
