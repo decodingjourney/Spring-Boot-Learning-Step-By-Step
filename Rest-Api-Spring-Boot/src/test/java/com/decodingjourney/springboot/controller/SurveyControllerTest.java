@@ -25,7 +25,7 @@ import com.decodingjourney.springboot.model.Question;
 import com.decodingjourney.springboot.service.SurveyService;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(value = SurveyController.class)
+@WebMvcTest(value = SurveyController.class, secure = false)
 public class SurveyControllerTest {
 	
 	@Autowired

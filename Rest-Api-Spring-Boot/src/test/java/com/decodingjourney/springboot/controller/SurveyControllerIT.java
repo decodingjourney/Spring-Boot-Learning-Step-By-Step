@@ -3,9 +3,11 @@ package com.decodingjourney.springboot.controller;
 import static org.junit.Assert.*;
 
 import java.net.URI;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -18,6 +20,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.codec.Base64;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.decodingjourney.springboot.Application;
@@ -30,16 +33,36 @@ public class SurveyControllerIT {
 	
 	@LocalServerPort
 	private int port;
+	
+	TestRestTemplate restTemplate = new TestRestTemplate();
+	
+	HttpHeaders headers = new HttpHeaders();
+	
+	@Before
+	public void before() {
+		headers.add("Authorization", createHttpAuthenticationHeaderValue(
+				"user1", "secret1"));
+		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+	}
+
+	private String createHttpAuthenticationHeaderValue(String userId,
+			String password) {
+
+		String auth = userId + ":" + password;
+
+		byte[] encodedAuth = Base64.encode(auth.getBytes(Charset
+				.forName("US-ASCII")));
+
+		String headerValue = "Basic " + new String(encodedAuth);
+
+		return headerValue;
+	}
 
 	@Test
 	public void testRetrieveSurveyQuestion() {
 
 		String retrieveSpecificQuestion = "/surveys/Survey1/questions/Question1";
 		String url = createUrlWithPort(retrieveSpecificQuestion);
-
-		TestRestTemplate restTemplate = new TestRestTemplate();
-
-		HttpHeaders headers = new HttpHeaders();
 
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 
@@ -61,8 +84,6 @@ public class SurveyControllerIT {
 	@Test
     public void retrieveSurveyQuestions() throws Exception {
 		TestRestTemplate template = new TestRestTemplate();
-		HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         String retrieveAllQuestion = "/surveys/Survey1/questions/";
 		ResponseEntity<List<Question>> response = template.exchange(
                 createUrl(retrieveAllQuestion), HttpMethod.GET,
@@ -91,10 +112,6 @@ public class SurveyControllerIT {
 				+ "/surveys/Survey1/questions";
 
 		TestRestTemplate restTemplate = new TestRestTemplate();
-
-		HttpHeaders headers = new HttpHeaders();
-
-		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		
 		Question question = new Question("DOESNOTMATTER",
 				"Without details", "Russia", Arrays.asList(
